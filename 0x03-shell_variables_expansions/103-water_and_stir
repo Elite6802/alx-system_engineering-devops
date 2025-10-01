@@ -1,3 +1,2 @@
 #!/bin/bash
-echo $(echo $(( $(echo $WATER | tr 'water' '01234') + $(echo $STIR | tr 'stir' '0123') ))) | awk '{a=$1;b="bestchol";while(a){r=substr(b,a%length(b)+1,1)r;a=int(a/length(b))}print r}'
-
+printf '5i%s\n4i%s\n+\n8op' $(tr water 01234<<<$WATER) $(tr stir 0123<<<$STIR) | dc | tr 0-7 bestchol
