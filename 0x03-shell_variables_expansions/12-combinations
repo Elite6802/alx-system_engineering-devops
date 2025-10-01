@@ -1,2 +1,2 @@
 #!/bin/bash
-for C in {a..z}{a..z};do if [ "$C" != "oo" ];then echo "$C";fi;done
+printf %s\\n {a..z}{a..z}|grep -v oo
