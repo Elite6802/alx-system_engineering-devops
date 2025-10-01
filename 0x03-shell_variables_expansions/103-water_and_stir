@@ -1,0 +1,2 @@
+#!/bin/bash
+echo 5i$(tr water 01234<<<$WATER) 4i$(tr stir 0123<<<$STIR)+p8o|dc|tr 0-7 bestchol
