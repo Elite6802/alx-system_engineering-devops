@@ -1,0 +1,2 @@
+#!/bin/bash
+for C in {a..z}{a..z};do [ "$C" != "oo" ]&&echo "$C";done
