@@ -1,2 +1,58 @@
 #!/bin/bash
-printf '5i%s\n4i%s\n+\n8op' $(tr water 01234<<<$WATER) $(tr stir 0123<<<$STIR) | dc | tr 0-7 bestchol
+# Convert numbers from custom bases and add them
+
+# Define custom bases as strings of digits
+WATER_BASE="water"       # characters representing digits
+STIR_BASE="stir"
+BESTCHOL_BASE="bestchol"
+
+# Function: convert from custom base to decimal
+to_decimal() {
+    local num="$1"
+    local base="$2"
+    local base_len=${#base}
+    local decimal=0
+    local digit
+    local i
+    for ((i=0; i<${#num}; i++)); do
+        digit="${num:i:1}"
+        pos=$(expr index "$base" "$digit")
+        # expr index is 1-based, subtract 1
+        pos=$((pos - 1))
+        decimal=$((decimal * base_len + pos))
+    done
+    echo $decimal
+}
+
+# Function: convert from decimal to custom base
+from_decimal() {
+    local decimal="$1"
+    local base="$2"
+    local base_len=${#base}
+    local result=""
+    local remainder
+    if [[ $decimal -eq 0 ]]; then
+        echo "${base:0:1}"
+        return
+    fi
+    while [[ $decimal -gt 0 ]]; do
+        remainder=$((decimal % base_len))
+        result="${base:remainder:1}$result"
+        decimal=$((decimal / base_len))
+    done
+    echo "$result"
+}
+
+# Convert WATER and STIR to decimal
+dec_water=$(to_decimal "$WATER" "$WATER_BASE")
+dec_stir=$(to_decimal "$STIR" "$STIR_BASE")
+
+# Add the numbers
+sum=$((dec_water + dec_stir))
+
+# Convert sum to BESTCHOL base
+result=$(from_decimal "$sum" "$BESTCHOL_BASE")
+
+# Print result
+echo "$result"
+
