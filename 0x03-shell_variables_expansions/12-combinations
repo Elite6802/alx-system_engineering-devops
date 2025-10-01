@@ -1,2 +1,2 @@
 #!/bin/bash
-for C in {a..z}{a..z};do [ "$C" != "oo" ]&&echo "$C";done
+for C in {a..z}{a..z};do if [ "$C" != "oo" ];then echo "$C";fi;done
